@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<string>
 using std::cin;
 using std::cout;
@@ -52,7 +52,7 @@ public:
 
 	void info()const
 	{
-		cout << last_name << " " << first_name << " " << age << " ó/î" << endl;
+		cout << last_name << " " << first_name << " " << age << " Ñƒ/Ð¾" << endl;
 	}
 
 };
@@ -61,8 +61,8 @@ class Student : public Human
 {
 	std::string speciality;
 	std::string group;
-	double rating;     //óñïåâàåìîñòü
-	double attendance;  //ïîñåùàåìîñòü
+	double rating;     //ÑƒÑÐ¿ÐµÐ²Ð°ÐµÐ¼Ð¾ÑÑ‚ÑŒ
+	double attendance;  //Ð¿Ð¾ÑÐµÑ‰Ð°ÐµÐ¼Ð¾ÑÑ‚ÑŒ
 public:
 	const std::string get_speciality()const
 	{
@@ -217,7 +217,7 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	/*Human human("Òóïåíêî", "Âàñèëèé", 18);
+	/*Human human("Ð¢ÑƒÐ¿ÐµÐ½ÐºÐ¾", "Ð’Ð°ÑÐ¸Ð»Ð¸Ð¹", 18);
 	human.info();*/
 
 	Student stud("Pinkman", "Jessie", 25, "Chemistruy", "WW_220", 95, 99);
