@@ -53,12 +53,16 @@ public:
 		cout << "HDestructor:\t" << this << endl;
 	}
 
-	virtual void info()const
+	virtual std::ostream& info(std::ostream& os)const
 	{
-		cout << last_name << " " << first_name << " " << age << " у/о" << endl;
+		return os << last_name << " " << first_name << " " << age << " у/о";
 	}
 
 };
+std::ostream& operator<<(std::ostream& os, const Human& obj)
+{
+	return obj.info(os);
+}
 
 #define STUDENT_TAKE_PARAMETERS const std::string& speciality, const std::string& group, double rating, double attendance
 #define STUDENT_GIVE_PARAMETERS speciality, group, rating, attendance
@@ -116,10 +120,9 @@ public:
 		cout << "SDestructor:\t" << this << endl;
 	}
 
-	void info()const
+	std::ostream& info(std::ostream& os)const override
 	{
-		Human::info();
-		cout << speciality << " " << group << " rating:" << rating << ", attendance:" << attendance << endl;
+		return Human::info(os) << " " << speciality << " " << group << " rating:" << rating << ", attendance:" << attendance << endl;
 
 	}
 };
@@ -159,14 +162,12 @@ public:
 	{
 		cout << "TDestructor:\t" << this << endl;
 	}
-	void info()const
+	std::ostream& info(std::ostream& os)const override
 	{
-		Human::info();
-		cout << "Academic_subject: " << academic_subject << ", teacher_work_time: " << teacher_work_time << endl;
+		return Human::info(os) << " Academic_subject: " << academic_subject << ", teacher_work_time: " << teacher_work_time;
 
 	}
 };
-
 
 class Graduate : public Student
 {
@@ -201,40 +202,13 @@ public:
 	{
 		cout << "GDestructor:\t" << this << endl;
 	}
-	void info()const
+	std::ostream& info(std::ostream& os)const override
 	{
-		Student::info();
-		cout << "topic_of_the_thesis: " << topic_of_the_thesis << ", directors_of_thesis: " << directors_of_thesis << endl;
+		return Student::info(os) << "topic_of_the_thesis: " << topic_of_the_thesis << ", directors_of_thesis: " << directors_of_thesis;
 
 	}
 
 };
-
-/*class Teacher : public Human
-{
-	std::string speciality;
-	unsigned int experience;
-public:
-
-	const std::string& get_speciality()const
-	{
-		return speciality;
-	}
-	unsigned int get_experience()const
-	{
-		return experience;
-	}
-	void set_speciality(std::string speciality)
-	{
-		this->speciality = speciality;
-	}
-	void set_experience(unsigned int experience)
-	{
-		this->experience = experience;
-	}
-
-
-};*/
 
 //#define INHERITANCE
 #define POLYMORPHISM
@@ -256,6 +230,7 @@ human.info();*/
 
 #endif // INHERITANCE
 
+#ifdef POLYMORPHISM
 	Human* group[] =
 	{
 		new Student("Pinkman", "Jessie", 25,  "Chemistruy", "WW_220", 95, 98),
@@ -268,12 +243,15 @@ human.info();*/
 	cout << delimiter << endl;
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
-		group[i]->info();
+		//group[i]->info();
+		cout << *group[i] << endl;
 		cout << delimiter << endl;
 	}
 	for (int i = 0; i < sizeof(group) / sizeof(group[0]); i++)
 	{
 		delete group[i];
 	}
+#endif // POLYMORPHISM
+
 
 }
