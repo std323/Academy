@@ -77,7 +77,7 @@ public:
 		double p = a + b + c;
 		cout << sqrt(p * (p - a) * (p - b) * (p - c));
 	}
-	void calc_perimeter() const 
+	void perimeter() const 
 	{           
 		cout << a + b + c;
 	}
@@ -112,11 +112,11 @@ void main()
 	figure[2]->perimeter();
 
 	cout << "Треугольник: ";
-	figure[2] = new Triangle(3, 5, 6);
+	figure[3] = new Triangle(3, 5, 6);
 	cout << "Площадь: ";
-	figure[2]->square();
+	figure[3]->square();
 	cout << "Периметр: ";
-	figure[2]->perimeter();
+	figure[3]->perimeter();
 
 
 }
