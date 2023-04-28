@@ -96,6 +96,7 @@ void main()
 	figure[0]->square();
 	cout << "Периметр: ";
 	figure[0]->perimeter();
+	delete figure[0];
 
 	cout << "Прямоугольник: ";
 	figure[1] = new Rectangle(6, 7);
@@ -103,6 +104,7 @@ void main()
 	figure[1]->square();
 	cout << "Периметр: ";
 	figure[1]->perimeter();
+	delete figure[1];
 
 	cout << "Круг: ";
 	figure[2] = new Circle(6);
@@ -110,6 +112,7 @@ void main()
 	figure[2]->square();
 	cout << "Периметр: ";
 	figure[2]->perimeter();
+	delete figure[2];
 
 	cout << "Треугольник: ";
 	figure[3] = new Triangle(3, 5, 6);
@@ -117,6 +120,9 @@ void main()
 	figure[3]->square();
 	cout << "Периметр: ";
 	figure[3]->perimeter();
+	delete figure[3];
+
+	delete[] figure;
 
 
 }
