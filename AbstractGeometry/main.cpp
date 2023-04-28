@@ -98,14 +98,14 @@ void main()
 	figure[0]->perimeter();
 
 	cout << "Прямоугольник: ";
-	figure[1] = new Rectangle(4, 5);
+	figure[1] = new Rectangle(6, 7);
 	cout << "Площадь: ";
 	figure[1]->square();
 	cout << "Периметр: ";
 	figure[1]->perimeter();
 
 	cout << "Круг: ";
-	figure[2] = new Circle(4);
+	figure[2] = new Circle(6);
 	cout << "Площадь: ";
 	figure[2]->square();
 	cout << "Периметр: ";
