@@ -191,8 +191,6 @@ namespace Geometry
 			HPEN hPen = CreatePen(PS_SOLID, 5, color);//Pen - карандаш, рисует контурную линию
 			HBRUSH hBrush = CreateSolidBrush(color); //Brush - кисть, рисует заливку
 
-
-
 			//Выбираем, чем и на чем будем рисовать:
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
@@ -201,12 +199,9 @@ namespace Geometry
 			//::Rectangle(hdc, start_x, start_y, end_x, end_y);
 			::Rectangle(hdc, start_x, start_y, start_x + side1, start_y + side2);
 
-
 			DeleteObject(hBrush);
 			DeleteObject(hPen);
 			ReleaseDC(hwnd, hdc);
-
-
 		}
 		void info()const override
 		{
@@ -341,8 +336,8 @@ namespace Geometry
 
 			POINT vertex[] =
 			{
-				{start_x, start_y + side},  //vertex_1
-				{start_x + side, start_y + side}, //vertex_2
+				{start_x, start_y + side},               //vertex_1
+				{start_x + side, start_y + side},         //vertex_2
 				{start_x + side / 2, start_y + side - get_height()} // vertex_3
 			};
 
@@ -360,21 +355,10 @@ namespace Geometry
 		}
 
 	};
-		
-
-	/*class Triangle : public Shape
-	{
-	 public:
-		 virtual double get_height()const = 0;
-
-		Triangle(double height, SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS) {}
-		~Triangle() {}
-	};
-
 	class IsoscelesTriangle : public Triangle
 	{
-	public:
 		double side1, side2;
+	public:
 		void set_side1(double side1)
 		{
 			if (side1 < Limitations::MIN_SIZE)side1 = Limitations::MIN_SIZE;
@@ -419,7 +403,14 @@ namespace Geometry
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
 
-			::Polygon(hdc, start_x, start_y, start_x + side1, start_y + side2);
+			POINT vertex[] =
+			{
+				{start_x, start_y + side1 + side2},               //vertex_1
+				{start_x + side1 + side2, start_y + side1 + side2},         //vertex_2
+				{start_x + side1 + side2 / 2, start_y + side1 + side2 - get_height()} // vertex_3
+			};
+
+			::Polygon(hdc, vertex, 3);
 
 			DeleteObject(hBrush);
 			DeleteObject(hPen);
@@ -432,74 +423,17 @@ namespace Geometry
 			cout << "Основание: " << side2 << endl;
 			Triangle::info();
 		}
-		IsoscelesTriangle(double side1, double side2, SHAPE_TAKE_PARAMETERS) :Triangle(height, SHAPE_GIVE_PARAMETERS)
+		IsoscelesTriangle(double side1, double side2, SHAPE_TAKE_PARAMETERS) :Triangle(SHAPE_GIVE_PARAMETERS)
 		{
 			set_side1(side1);
 			set_side2(side2);
 		}
 		~IsoscelesTriangle() {}
-
 	};
-
-	class EquilateralTriangle : public Triangle
-	{
-	public:
-		double side;
-		void set_side(double side)
-		{
-			if (side < Limitations::MIN_SIZE)side = Limitations::MIN_SIZE;
-			if (side > Limitations::MAX_SIZE)side = Limitations::MAX_SIZE;
-			this->side = side;
-		}
-		double get_side()const
-		{
-			return side;
-		}
-		double get_height()const override
-		{
-			return (side * sqrt(3))/2;
-		}
-		double get_area()const override
-		{
-			return 0.5 * side * get_height();
-		}
-		double get_perimeter()const override
-		{
-			return 3 * side;
-		}
-		void draw()const override
-		{
-			HWND hwnd = GetConsoleWindow();
-			HDC hdc = GetDC(hwnd);
-
-			HPEN hPen = CreatePen(PS_SOLID, 5, color);
-			HBRUSH hBrush = CreateSolidBrush(color);
-
-			SelectObject(hdc, hPen);
-			SelectObject(hdc, hBrush);
-
-			::Polygon(hdc, start_x, start_y, start_x + side);
-
-			DeleteObject(hBrush);
-			DeleteObject(hPen);
-			ReleaseDC(hwnd, hdc);
-		}
-		void info()const
-		{
-			cout << typeid(*this).name() << endl;
-			cout << "Стороны треугольника: " << get_side() << endl;
-			Triangle::info();
-		}
-		EquilateralTriangle(double side, SHAPE_TAKE_PARAMETERS) :Triangle(height, SHAPE_GIVE_PARAMETERS)
-		{
-			set_side(side);
-		}
-		~EquilateralTriangle() {}
-	};
-
 	class ScaleneTriangle :public Triangle
 	{
 		double side1, side2, side3;
+	public:
 		void set_side1(double side1)
 		{
 			if (side1 < Limitations::MIN_SIZE)side1 = Limitations::MIN_SIZE;
@@ -554,7 +488,14 @@ namespace Geometry
 			SelectObject(hdc, hPen);
 			SelectObject(hdc, hBrush);
 
-			::Polygon(hdc, start_x, start_y, start_x + side1, start_y + side2);
+			POINT vertex[] =
+			{
+				{start_x, start_y + side1 + side2 + side3},    //vertex_1
+				{start_x + side1 + side2 + side3, start_y + side1 + side2 + side3},   //vertex_2
+				{start_x + side1 + side2 + side3 / 2, start_y + side1 + side2 + side3 - get_height()} // vertex_3
+			};
+
+			::Polygon(hdc, vertex, 3);
 
 			DeleteObject(hBrush);
 			DeleteObject(hPen);
@@ -567,17 +508,15 @@ namespace Geometry
 			cout << "Основание: " << side3 << endl;
 			Triangle::info();
 		}
-		ScaleneTriangle(double side1, double side2, double side3, SHAPE_TAKE_PARAMETERS) :Triangle(height, SHAPE_GIVE_PARAMETERS)
+		ScaleneTriangle(double side1, double side2, double side3, SHAPE_TAKE_PARAMETERS) :Triangle(SHAPE_GIVE_PARAMETERS)
 		{
 			set_side1(side1);
 			set_side2(side2);
 			set_side3(side3);
 		}
 		~ScaleneTriangle() {}
-
-	};*/
+	};
 }
-
 
 void main()
 {
@@ -598,144 +537,21 @@ void main()
 	Geometry::Rectangle rect(250, 80, 360, 370, 5, Geometry::Color::blue);
 	rect.info();
 
-	Geometry::Circle circle(55, 710, 345, 5, Geometry::Color::yellow);
+	Geometry::Circle circle(55, 710, 450, 5, Geometry::Color::yellow);
 	circle.info();
 
 	Geometry::EquilateralTriangle t_eq(300, 700, 100, 25, Geometry::Color::green);
 	t_eq.info();
 
-	/*Geometry::IsoscelesTriangle isosceles(Geometry::Color::grey);
-	isosceles.info();
+	Geometry::IsoscelesTriangle t_isos(300, 300, 550, 100, 25, Geometry::Color::grey);
+	t_isos.info();
 
-	Geometry::EquilateralTriangle  equilateral(Geometry::Color::white);
-	equilateral.info();
-
-	Geometry::ScaleneTiangle  scalene(Geometry::Color::blue);
-	scalene.info();*/
-
+	Geometry::ScaleneTriangle t_scal(100, 200, 500, 450, 50, 25, Geometry::Color::blue);
+	t_scal.info();
 
 
 }
-/*class Figure
-{
 
-public:
-	virtual void square() const = 0;
-	virtual void perimeter() const = 0;
-
-};
-
-class Square : public Figure
-{
-	double a;
-public:
-	Square(double side_a): a(side_a) {}
-	void square() const
-	{
-		cout << a * a;
-	}
-	void perimeter() const
-	{
-		cout << 4 * a;
-	}
-
-};
-
-class Rectangle : public Figure
-{
-private:
-	double a, b;
-public:
-	Rectangle(double side_a, double side_b)	: a(side_a), b(side_b) {}
-	void square() const
-	{
-		cout << a * b;
-	}
-	void perimeter() const
-	{
-		cout << 2 * (a + b);
-	}
-};
-
-class Circle : public Figure
-{
-private:
-
-	double r;
-public:
-	Circle(double radius): r(radius) {}
-
-	void square() const
-	{
-		cout << 3.14 * r * r;
-	}
-
-	void perimeter() const
-	{
-		cout << 2 * 3.14 * r;
-	}
-
-};
-
-class Triangle : public Figure
-{
-private:
-	double a, b, c;
-public:
-	Triangle(double side_a, double side_b, double side_c)
-	: a(side_a), b(side_b), c(side_c) {}
-
-	void square() const
-	{
-		double p = a + b + c;
-		cout << sqrt(p * (p - a) * (p - b) * (p - c));
-	}
-	void perimeter() const
-	{
-		cout << a + b + c;
-	}
-};
-
-
-void main()
-{
-	setlocale(LC_ALL, "");
-
-	Figure** figure = new Figure* [4];
-
-	cout << "Квадрат: ";
-	figure[0] = new Square(4);
-	cout << "Площадь: ";
-	figure[0]->square();
-	cout << "Периметр: ";
-	figure[0]->perimeter();
-	delete figure[0];
-
-	cout << "Прямоугольник: ";
-	figure[1] = new Rectangle(6, 7);
-	cout << "Площадь: ";
-	figure[1]->square();
-	cout << "Периметр: ";
-	figure[1]->perimeter();
-	delete figure[1];
-
-	cout << "Круг: ";
-	figure[2] = new Circle(6);
-	cout << "Площадь: ";
-	figure[2]->square();
-	cout << "Периметр: ";
-	figure[2]->perimeter();
-	delete figure[2];
-
-	cout << "Треугольник: ";
-	figure[3] = new Triangle(3, 5, 6);
-	cout << "Площадь: ";
-	figure[3]->square();
-	cout << "Периметр: ";
-	figure[3]->perimeter();
-	delete figure[3];
-
-	delete[] figure;*/
 
 
 
